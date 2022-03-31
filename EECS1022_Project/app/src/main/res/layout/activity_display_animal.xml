@@ -30,13 +30,23 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_width="146dp"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.385" />
+        app:layout_constraintVertical_bias="0.046" />
+
+    <TextView
+        android:id="@+id/testing"
+        android:layout_width="334dp"
+        android:layout_height="279dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
