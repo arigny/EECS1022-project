@@ -42,7 +42,7 @@ public class DisplayAnimal extends AppCompatActivity {
         textView.setText(message);
 
         OkHttpClient client = new OkHttpClient();
-        String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "&count=10";
+        String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "%20animal&count=10";
 
         Request request = new Request.Builder()
                 .url(url)
@@ -69,16 +69,12 @@ public class DisplayAnimal extends AppCompatActivity {
                 DisplayAnimal.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-//                        try {
-//                            TextView myTextView = (TextView) findViewById(R.id.testing);
-//                            myTextView.setText(responseData);
-
                         try {
                             JSONObject json = new JSONObject(responseData);
                             JSONArray values = json.getJSONArray("value");
                             //Gets the first search result
                             JSONObject value = values.getJSONObject(0);
-                            String imgURL = value.getString("contentUrl");
+                            String imgURL = value.getString("thumbnailUrl");
                             TextView myTextView = (TextView) findViewById(R.id.testing);
                             myTextView.setText(imgURL);
                             new DownloadImageTask((ImageView) findViewById(R.id.imageView))
@@ -87,39 +83,10 @@ public class DisplayAnimal extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
                     }
                 });
             }
         });
-
-
-
-        // Select proper image to display
-        String animal;
-        if (selectedAnimal.equalsIgnoreCase("dog")) {
-            animal = "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=640:*";
-        }
-        else if (selectedAnimal.equalsIgnoreCase("cat")) {
-            animal = "https://i2-prod.mirror.co.uk/incoming/article25609246.ece/ALTERNATES/s1200c/0_PUSS-IN-BOOTS.jpg";
-        }
-        else if (selectedAnimal.equalsIgnoreCase("mouse")) {
-            animal = "https://media.baamboozle.com/uploads/images/44143/1610710817_77416";
-        }
-        else if (selectedAnimal.equalsIgnoreCase("quokka")) {
-            animal = "https://imgk.timesnownews.com/74666103_2454188944828540_4366738148824794550_n_1574090431__rend_1_1.jpg?tr=w-360";
-        }
-        else {
-            animal = "https://www.prestashop.com/sites/default/files/wysiwyg/404_not_found.png";
-        }
-
-        // Download image for view
-//        new DownloadImageTask((ImageView) findViewById(R.id.imageView))
-//                .execute(animal);
-
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
