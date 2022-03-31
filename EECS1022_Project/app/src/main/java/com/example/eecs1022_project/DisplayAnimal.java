@@ -11,7 +11,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -68,8 +70,23 @@ public class DisplayAnimal extends AppCompatActivity {
                     @Override
                     public void run() {
 //                        try {
+//                            TextView myTextView = (TextView) findViewById(R.id.testing);
+//                            myTextView.setText(responseData);
+
+                        try {
+                            JSONObject json = new JSONObject(responseData);
+                            JSONArray values = json.getJSONArray("value");
+                            //Gets the first search result
+                            JSONObject value = values.getJSONObject(0);
+                            String imgURL = value.getString("contentUrl");
                             TextView myTextView = (TextView) findViewById(R.id.testing);
-                            myTextView.setText(responseData);
+                            myTextView.setText(imgURL);
+                            new DownloadImageTask((ImageView) findViewById(R.id.imageView))
+                                    .execute(imgURL);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
 
 //                        } catch (IOException e) {
 //                            e.printStackTrace();
@@ -100,8 +117,8 @@ public class DisplayAnimal extends AppCompatActivity {
         }
 
         // Download image for view
-        new DownloadImageTask((ImageView) findViewById(R.id.imageView))
-                .execute(animal);
+//        new DownloadImageTask((ImageView) findViewById(R.id.imageView))
+//                .execute(animal);
 
     }
 
