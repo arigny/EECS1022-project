@@ -17,6 +17,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -37,56 +39,82 @@ public class DisplayAnimal extends AppCompatActivity {
         String selectedAnimal = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         message += selectedAnimal;
 
+        // ArrayList of all animals in zoo
+        ArrayList allAnimals = new ArrayList<String>();
+        allAnimals.add("dog");
+        allAnimals.add("cat");
+        allAnimals.add("mouse");
+        allAnimals.add("cow");
+        allAnimals.add("duck");
+        allAnimals.add("tiger");
+        allAnimals.add("monkey");
+        allAnimals.add("kimodo dragon");
+        allAnimals.add("penguin");
+        allAnimals.add("fish");
+
         // Capture the layout's TextView and set the string as its text
-        TextView textView = findViewById(R.id.textView);
-        textView.setText(message);
+        TextView queryView = findViewById(R.id.queryView);
+        queryView.setText(message);
 
-        OkHttpClient client = new OkHttpClient();
-        String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "%20animal&count=10";
+        // Capture the layout's TextView2 and set the string as its text
+        TextView hereView = findViewById(R.id.hereView);
+        hereView.setText("Here is it:");
 
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .addHeader("X-RapidAPI-Host", "bing-image-search1.p.rapidapi.com")
-                .addHeader("X-RapidAPI-Key", "c052815b7cmsh147118f3cfaf92ep1f0328jsn5e3f2b19757e")
-                .build();
+        // Check if query animal is not in allAnimals
+        if (allAnimals.contains(selectedAnimal.toLowerCase(Locale.ROOT))) {
 
-        //START HERE
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
+            OkHttpClient client = new OkHttpClient();
+            String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "%20animal&count=10";
 
-            }
+            Request request = new Request.Builder()
+                    .url(url)
+                    .get()
+                    .addHeader("X-RapidAPI-Host", "bing-image-search1.p.rapidapi.com")
+                    .addHeader("X-RapidAPI-Key", "c052815b7cmsh147118f3cfaf92ep1f0328jsn5e3f2b19757e")
+                    .build();
 
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                // ... check for failure using `isSuccessful` before proceeding
+            //START HERE
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
 
-                // Read data on the worker thread
-                final String responseData = response.body().string();
+                }
 
-                // Run view-related code back on the main thread
-                DisplayAnimal.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            JSONObject json = new JSONObject(responseData);
-                            JSONArray values = json.getJSONArray("value");
-                            //Gets the first search result
-                            JSONObject value = values.getJSONObject(0);
-                            String imgURL = value.getString("thumbnailUrl");
-                            TextView myTextView = (TextView) findViewById(R.id.testing);
-                            myTextView.setText(imgURL);
-                            new DownloadImageTask((ImageView) findViewById(R.id.imageView))
-                                    .execute(imgURL);
+                @Override
+                public void onResponse(Call call, final Response response) throws IOException {
+                    // ... check for failure using `isSuccessful` before proceeding
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    // Read data on the worker thread
+                    final String responseData = response.body().string();
+
+                    // Run view-related code back on the main thread
+                    DisplayAnimal.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                JSONObject json = new JSONObject(responseData);
+                                JSONArray values = json.getJSONArray("value");
+                                //Gets the first search result
+                                JSONObject value = values.getJSONObject(0);
+                                String imgURL = value.getString("thumbnailUrl");
+                                TextView myTextView = (TextView) findViewById(R.id.testing);
+                                myTextView.setText(imgURL);
+                                new DownloadImageTask((ImageView) findViewById(R.id.imageView))
+                                        .execute(imgURL);
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+
+        }
+        else {
+            queryView.setText("Invalid query: " + selectedAnimal);
+            hereView.setText("Please select an animal from the list");
+        }
     }
 
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
