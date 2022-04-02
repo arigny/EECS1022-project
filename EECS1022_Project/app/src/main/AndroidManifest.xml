@@ -13,7 +13,11 @@
         android:theme="@style/Theme.EECS1022_Project">
         <activity
             android:name=".displayRandomAnimal"
-            android:exported="false" />
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity
             android:name=".DisplayAnimal"
             android:parentActivityName=".MainActivity">

@@ -12,12 +12,9 @@ import java.util.ArrayList;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ModelTest {
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
-    }
 
     @Test
+    // Test that selectRandom() works and returns a valid animal
     public void selectRandom() {
         Model random = new Model();
         String selectedRandom = random.selectRandom();
@@ -26,13 +23,23 @@ public class ModelTest {
     }
 
     @Test
-    public void validateAnimal() {
+    // Test that validateAnimal() returns true for lowercase valid animal
+    public void validateAnimal_01() {
         Model validate = new Model();
         String dog = "dog";
         assertTrue(validate.validateAnimal(dog));
     }
 
     @Test
+    // Test that validateAnimal() returns true for uppercase valid animal
+    public void validateAnimal_02() {
+        Model validate = new Model();
+        String dog = "DOG";
+        assertTrue(validate.validateAnimal(dog));
+    }
+
+    @Test
+    // Test that validateAnimal() returns false for invalid animal
     public void invalidAnimal() {
         Model validate = new Model();
         String frog = "frog";

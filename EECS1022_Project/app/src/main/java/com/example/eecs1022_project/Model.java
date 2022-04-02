@@ -2,6 +2,7 @@ package com.example.eecs1022_project;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Model {
 
@@ -16,7 +17,7 @@ public class Model {
     }
 
     public boolean validateAnimal (String animal) {
-        if (this.allAnimals.contains(animal)) {
+        if (this.allAnimals.contains(animal.toLowerCase(Locale.ROOT))) {
             return true;
         } else return false;
     }

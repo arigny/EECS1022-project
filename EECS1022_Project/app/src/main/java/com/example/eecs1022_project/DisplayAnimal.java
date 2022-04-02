@@ -50,7 +50,7 @@ public class DisplayAnimal extends AppCompatActivity {
         // Check if query animal is in allAnimals. If so, query, download and display it.
         Model model = new Model();
 
-        if (model.validateAnimal(selectedAnimal.toLowerCase(Locale.ROOT))) {
+        if (model.validateAnimal(selectedAnimal)) {
 
             OkHttpClient client = new OkHttpClient();
             String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "%20animal&count=10";
