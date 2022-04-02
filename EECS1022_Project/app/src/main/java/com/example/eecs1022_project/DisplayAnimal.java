@@ -39,19 +39,21 @@ public class DisplayAnimal extends AppCompatActivity {
         String selectedAnimal = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         message += selectedAnimal;
 
-        // Capture the layout's TextView and set the string as its text
+        // Capture the layout's queryView and set the string as its text
         TextView queryView = findViewById(R.id.queryView);
         queryView.setText(message);
 
-        // Capture the layout's TextView2 and set the string as its text
+        // Capture the layout's hereView and set the string as its text
         TextView hereView = findViewById(R.id.hereView);
         hereView.setText("Here it is:");
 
         // Check if query animal is in allAnimals. If so, query, download and display it.
         Model model = new Model();
 
+        // If the input is a valid animal, continue
         if (model.validateAnimal(selectedAnimal)) {
 
+            // Search bing image search via RapidAPI url, using OkHttp
             OkHttpClient client = new OkHttpClient();
             String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "%20animal&count=10";
 
@@ -94,19 +96,24 @@ public class DisplayAnimal extends AppCompatActivity {
             });
 
         }
+
+        // If input is not valid, display invalid query messages
         else {
             queryView.setText("Invalid query: " + selectedAnimal);
             hereView.setText("Please select an animal from the list");
         }
     }
 
+    // Download the image from the URL and display it
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
+        // Set ImageView
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
 
+        // Download the image in the background
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -120,6 +127,7 @@ public class DisplayAnimal extends AppCompatActivity {
             return mIcon11;
         }
 
+        // Set the bitmap to the image
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }

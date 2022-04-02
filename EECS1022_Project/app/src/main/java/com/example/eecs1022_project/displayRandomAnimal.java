@@ -37,16 +37,16 @@ public class displayRandomAnimal extends AppCompatActivity {
         Intent intent = getIntent();
         String selectedAnimal = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
-        // Capture the layout's TextView and set the string as its text
+        // Capture the layout's queryViewRandom and set the string as its text
         TextView queryView = findViewById(R.id.queryViewRandom);
         queryView.setText("You chose random!");
 
-        // Capture the layout's TextView2 and set the string as its text
+        // Capture the layout's hereViewRandom and set the string as its text
         TextView hereView = findViewById(R.id.hereViewRandom);
         String message = "You got a " + selectedAnimal;
         hereView.setText(message);
 
-        // Query, download and display the randomAnimal
+        // Search bing image search via RapidAPI url, using OkHttp
         OkHttpClient client = new OkHttpClient();
         String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "%20animal&count=10";
 
@@ -90,13 +90,16 @@ public class displayRandomAnimal extends AppCompatActivity {
 
     }
 
+    // Download the image from the URL and display it
     private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
 
+        // Set ImageView
         public DownloadImageTask(ImageView bmImage) {
             this.bmImage = bmImage;
         }
 
+        // Download the image in the background
         protected Bitmap doInBackground(String... urls) {
             String urldisplay = urls[0];
             Bitmap mIcon11 = null;
@@ -110,6 +113,7 @@ public class displayRandomAnimal extends AppCompatActivity {
             return mIcon11;
         }
 
+        // Set the bitmap to the image
         protected void onPostExecute(Bitmap result) {
             bmImage.setImageBitmap(result);
         }
