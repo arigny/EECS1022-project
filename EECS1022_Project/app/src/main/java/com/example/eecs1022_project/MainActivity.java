@@ -7,14 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-import org.json.JSONException;
-
-import java.io.IOException;
 import java.util.ArrayList;
-
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.myfirstapp.MESSAGE";
@@ -24,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    // On SUBMIT click, send query to DisplayAnimal activity
     public void submitAnimal(View view) {
         Intent intent = new Intent(this, DisplayAnimal.class);
         EditText editText = (EditText) findViewById(R.id.input);
@@ -33,16 +27,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // On RANDOM ANIMAL, send random animal query to displayRandomAnimal activity
     public void submitRandom(View view) {
-        Intent intent = new Intent(this, DisplayAnimal.class);
+        Intent intent = new Intent(this, displayRandomAnimal.class);
         intent.putExtra(EXTRA_MESSAGE, selectRandom());
         startActivity(intent);
-
-
     }
 
     public String selectRandom(){
-        // Logic to go in displayRandomAnimal activity
+        // When random animal button is clicked, use random int between 0 and 9 to select random animal from the list
         ArrayList allAnimals = new ArrayList<String>();
         allAnimals.add("dog");
         allAnimals.add("cat");
