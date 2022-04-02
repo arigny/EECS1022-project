@@ -60,7 +60,7 @@ public class DisplayAnimal extends AppCompatActivity {
         TextView hereView = findViewById(R.id.hereView);
         hereView.setText("Here it is:");
 
-        // Check if query animal is not in allAnimals
+        // Check if query animal is in allAnimals. If so, query, download and display it.
         if (allAnimals.contains(selectedAnimal.toLowerCase(Locale.ROOT))) {
 
             OkHttpClient client = new OkHttpClient();
@@ -97,8 +97,6 @@ public class DisplayAnimal extends AppCompatActivity {
                                 //Gets the first search result
                                 JSONObject value = values.getJSONObject(0);
                                 String imgURL = value.getString("thumbnailUrl");
-                                TextView myTextView = (TextView) findViewById(R.id.testing);
-                                myTextView.setText(imgURL);
                                 new DownloadImageTask((ImageView) findViewById(R.id.imageView))
                                         .execute(imgURL);
 
