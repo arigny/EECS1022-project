@@ -30,28 +30,8 @@ public class MainActivity extends AppCompatActivity {
     // On RANDOM ANIMAL, send random animal query to displayRandomAnimal activity
     public void submitRandom(View view) {
         Intent intent = new Intent(this, displayRandomAnimal.class);
-        intent.putExtra(EXTRA_MESSAGE, selectRandom());
+        Model model = new Model();
+        intent.putExtra(EXTRA_MESSAGE, model.selectRandom());
         startActivity(intent);
     }
-
-    public String selectRandom(){
-        // When random animal button is clicked, use random int between 0 and 9 to select random animal from the list
-        ArrayList allAnimals = new ArrayList<String>();
-        allAnimals.add("dog");
-        allAnimals.add("cat");
-        allAnimals.add("mouse");
-        allAnimals.add("cow");
-        allAnimals.add("duck");
-        allAnimals.add("tiger");
-        allAnimals.add("monkey");
-        allAnimals.add("kimodo dragon");
-        allAnimals.add("penguin");
-        allAnimals.add("fish");
-
-        int random = (int) Math.floor(Math.random()*(9 - 0 + 1) + 0);
-        String randomSelected = (String) allAnimals.get(random);
-
-        return randomSelected;
-    }
-
 }

@@ -39,19 +39,6 @@ public class DisplayAnimal extends AppCompatActivity {
         String selectedAnimal = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         message += selectedAnimal;
 
-        // ArrayList of all animals in zoo
-        ArrayList allAnimals = new ArrayList<String>();
-        allAnimals.add("dog");
-        allAnimals.add("cat");
-        allAnimals.add("mouse");
-        allAnimals.add("cow");
-        allAnimals.add("duck");
-        allAnimals.add("tiger");
-        allAnimals.add("monkey");
-        allAnimals.add("kimodo dragon");
-        allAnimals.add("penguin");
-        allAnimals.add("fish");
-
         // Capture the layout's TextView and set the string as its text
         TextView queryView = findViewById(R.id.queryView);
         queryView.setText(message);
@@ -61,7 +48,9 @@ public class DisplayAnimal extends AppCompatActivity {
         hereView.setText("Here it is:");
 
         // Check if query animal is in allAnimals. If so, query, download and display it.
-        if (allAnimals.contains(selectedAnimal.toLowerCase(Locale.ROOT))) {
+        Model model = new Model();
+
+        if (model.validateAnimal(selectedAnimal.toLowerCase(Locale.ROOT))) {
 
             OkHttpClient client = new OkHttpClient();
             String url = "https://bing-image-search1.p.rapidapi.com/images/search?q=" + selectedAnimal + "%20animal&count=10";
@@ -73,7 +62,6 @@ public class DisplayAnimal extends AppCompatActivity {
                     .addHeader("X-RapidAPI-Key", "c052815b7cmsh147118f3cfaf92ep1f0328jsn5e3f2b19757e")
                     .build();
 
-            //START HERE
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -82,12 +70,9 @@ public class DisplayAnimal extends AppCompatActivity {
 
                 @Override
                 public void onResponse(Call call, final Response response) throws IOException {
-                    // ... check for failure using `isSuccessful` before proceeding
 
-                    // Read data on the worker thread
                     final String responseData = response.body().string();
 
-                    // Run view-related code back on the main thread
                     DisplayAnimal.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

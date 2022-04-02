@@ -65,12 +65,9 @@ public class displayRandomAnimal extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
-                // ... check for failure using `isSuccessful` before proceeding
 
-                // Read data on the worker thread
                 final String responseData = response.body().string();
 
-                // Run view-related code back on the main thread
                 displayRandomAnimal.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
