@@ -58,7 +58,7 @@ public class DisplayAnimal extends AppCompatActivity {
 
         // Capture the layout's TextView2 and set the string as its text
         TextView hereView = findViewById(R.id.hereView);
-        hereView.setText("Here is it:");
+        hereView.setText("Here it is:");
 
         // Check if query animal is not in allAnimals
         if (allAnimals.contains(selectedAnimal.toLowerCase(Locale.ROOT))) {
