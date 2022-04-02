@@ -35,13 +35,13 @@ public class MainActivity extends AppCompatActivity {
 
     public void submitRandom(View view) {
         Intent intent = new Intent(this, DisplayAnimal.class);
-        EditText editText = (EditText) findViewById(R.id.input);
-        // Random button randomly assigns an animal
-        int random = (int) Math.floor(Math.random()*(9 - 0 + 1) + 0);
-//        intent.putExtra(EXTRA_MESSAGE, random);
-//        startActivity(intent);
-        System.out.println("Random number: "+ random);
+        intent.putExtra(EXTRA_MESSAGE, selectRandom());
+        startActivity(intent);
 
+
+    }
+
+    public String selectRandom(){
         // Logic to go in displayRandomAnimal activity
         ArrayList allAnimals = new ArrayList<String>();
         allAnimals.add("dog");
@@ -55,7 +55,10 @@ public class MainActivity extends AppCompatActivity {
         allAnimals.add("penguin");
         allAnimals.add("fish");
 
-        System.out.println(allAnimals.get(random));
+        int random = (int) Math.floor(Math.random()*(9 - 0 + 1) + 0);
+        String randomSelected = (String) allAnimals.get(random);
+
+        return randomSelected;
     }
 
 }
